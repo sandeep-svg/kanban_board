@@ -99,17 +99,23 @@ export default function BoardApp() {
   }
 
   const handleMoveCard = async (cardId, sourceCol, destCol, sourceIndex, destIndex) => {
-    const sorted = cards.filter(c => c.column === destCol && c.id !== cardId).sort((a, b) => a.position - b.position)
+    const destCards = cards.filter(c => c.column === destCol && c.id !== cardId)
+      .sort((a, b) => a.position - b.position)
+    
     const targetIdx = destIndex
-
     let newPosition
-    if (targetIdx === 0) {
-      newPosition = sorted.length > 0 ? sorted[0].position - 10 : 10
-    } else if (targetIdx >= sorted.length) {
-      newPosition = sorted.length > 0 ? sorted[sorted.length - 1].position + 10 : (targetIdx + 1) * 10
+    
+    if (destCards.length === 0) {
+      newPosition = 10
+    } else if (targetIdx <= 0) {
+      newPosition = destCards[0].position - 10
+    } else if (targetIdx >= destCards.length) {
+      newPosition = destCards[destCards.length - 1].position + 10
     } else {
-      newPosition = (sorted[targetIdx - 1].position + sorted[targetIdx].position) / 2
+      newPosition = (destCards[targetIdx - 1].position + destCards[targetIdx].position) / 2
     }
+
+    newPosition = Math.max(1, newPosition)
 
     try {
       const response = await fetch(`/cards/${cardId}/move`, {

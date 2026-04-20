@@ -73,12 +73,15 @@ Cards are stored in a `cards` table:
 | column     | integer  | Column index (0-4)                      |
 | position   | float    | Fractional position within the column    |
 
-**Position Strategy**: Uses floating-point positions (multiples of 10: 10, 20, 30...). When reordering:
-- Drop at top: `first.position - 10`
-- Drop at bottom: `last.position + 10`
-- Drop in middle: `(before.position + after.position) / 2`
+**Position Strategy**: Uses floating-point positions (10, 20, 30...). Algorithm:
+- **Empty column**: position = 10
+- **Drop at top**: `first.position - 10` (min: 1)
+- **Drop at bottom**: `last.position + 10`
+- **Drop in middle**: `(before.position + after.position) / 2`
 
-This avoids updating all cards in a column.
+Safeguards:
+- `Math.max(1, newPosition)` prevents negative positions
+- New cards: `max_position + 10` (adds at bottom)
 
 ### Historical Events Storage
 
