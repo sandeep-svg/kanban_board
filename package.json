@@ -7,7 +7,7 @@
     "build:css:watch": "npx tailwindcss -i ./app/assets/stylesheets/input.css -o ./app/assets/builds/application.css --watch",
     "build:js": "node esbuild.config.js",
     "build": "npm run build:css && npm run build:js && npm run copy",
-    "copy": "node -e \"const fs=require('fs');fs.copyFileSync('app/assets/builds/application.js','public/assets/application.js');fs.copyFileSync('app/assets/builds/application.css','public/assets/application.css');console.log('Copied to public/assets')\"",
+    "copy": "node -e \"const fs=require('fs');fs.mkdirSync('public/assets', { recursive: true });fs.copyFileSync('app/assets/builds/application.js','public/assets/application.js');fs.copyFileSync('app/assets/builds/application.css','public/assets/application.css');console.log('Copied to public/assets')\"",
     "dev": "npm run build:js && npm run build:css:watch"
   },
   "dependencies": {

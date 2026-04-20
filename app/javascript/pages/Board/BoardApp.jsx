@@ -85,7 +85,10 @@ export default function BoardApp() {
     if (!confirm('Are you sure you want to delete this card?')) return
 
     try {
-      const response = await fetch(`/cards/${cardId}`, { method: 'DELETE' })
+      const response = await fetch(`/cards/${cardId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      })
       const data = await response.json()
       if (data.success) {
         fetchBoardState()
