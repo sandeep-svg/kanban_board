@@ -53,4 +53,5 @@ group :development do
   gem "web-console"
 end
 
+# Vite for Rails (required by some Rails features)
 gem "vite_rails", "~> 3.10"
