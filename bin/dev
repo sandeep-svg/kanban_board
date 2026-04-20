@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+
+system("npm run dev &") || abort("Failed to start Vite dev server")
+exec "./bin/rails", "server", *ARGV
